@@ -1,20 +1,13 @@
 import scipy.sparse as sp
 import scipy.sparse.csgraph as csgraph
 import numpy as np
-import time
 import pickle
-import random
 import matplotlib.pyplot as plt
 import networkx as nx
-from scipy.optimize import curve_fit
-import argparse
 import random
 import pandas as pd
 import networkx as nx
 import model_file as mf
-import scipy
-import glob
-import itertools
 
 datasets = [
     '../DATA/snap/facebook_combined.pkl',

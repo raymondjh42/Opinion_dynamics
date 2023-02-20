@@ -96,7 +96,48 @@ class Model:
             self.replace_weights()
         else:
             self.weights = self.weights / 2 + weights / 2
+            
+    # Return the average degree, number of edges, number of triangles, diameter, transitivity and clustering coefficient
+    def graph_features(self):
+        print("Calculating graph features...")
+        # Get networkx graph
+        init_time_start = time.time()
+        G = nx.from_scipy_sparse_matrix(self.weights)
+        init_time_end = time.time()
+        print(f"Init time: {init_time_end - init_time_start}")
 
+        # Get the average degree
+        av_deg_start = time.time()
+        av_deg = 2 * len(G.edges) / self.n
+        av_deg_end = time.time()
+        print(f"Average degree: {av_deg} (time: {av_deg_end - av_deg_start})")
+
+        # Get the number of triangles
+        triangle_start = time.time()
+        triangles = nx.triangles(G)
+        triangle_end = time.time()
+        print(f"Number of triangles: {sum(triangles.values())} (time: {triangle_end - triangle_start})")
+
+        # Get the diameter
+        # diameter_start = time.time()
+        # diameter = nx.diameter(G)
+        # diameter_end = time.time()
+        # print(f"Diameter: {diameter} (time: {diameter_end - diameter_start})")
+
+        # Get the transitivity
+        transitivity_start = time.time()
+        transitivity = nx.transitivity(G)
+        transitivity_end = time.time()
+        print(f"Transitivity: {transitivity} (time: {transitivity_end - transitivity_start})")
+
+        # Get the clustering coefficient weighted
+        clustering_coefficient_start = time.time()
+        clustering_coefficient = nx.average_clustering(G, weight='weight')
+        clustering_coefficient_end = time.time()
+        print(f"Clustering coefficient: {clustering_coefficient} (time: {clustering_coefficient_end - clustering_coefficient_start})")
+
+        return av_deg, len(G.edges), sum(triangles.values()), transitivity, clustering_coefficient
+        
     def opinion_formation_round(self) -> None:
         intermediate_step = self.weights @ self.external + self.internal
         for i in range(self.n):

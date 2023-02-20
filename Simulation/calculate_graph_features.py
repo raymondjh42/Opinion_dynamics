@@ -49,8 +49,16 @@ for path in datasets:
         averaged_graph_features = np.mean(graph_features_e, axis=0)
         graph_features.append(averaged_graph_features)
 
+    # Create path
+    if path == datasets[0]:
+        store_path_suffix = 'graph_features_fb.pickle'
+    elif path == datasets[1]:
+        store_path_suffix = 'graph_features_fb_mich.pickle'
+    elif path == datasets[2]:
+        store_path_suffix = 'graph_features_fb_wel.pickle'
+
     # Save in graph_features
-    with open('graph_features/' + path.split('/')[-1].split('.')[0] + '.pkl', 'wb') as handle:
+    with open('graph_features/' + store_path_suffix, 'wb') as handle:
         pickle.dump(graph_features, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 

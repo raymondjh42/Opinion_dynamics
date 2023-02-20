@@ -23,10 +23,10 @@ datasets = [
     '../DATA/socfb-Wellesley22/socfb-Wellesley22.pkl'
 ]
 
-target_data = 'fb'
+target_data = 'fb_mich'
 
 # Unpickle weight matrix of the graph
-if target_data == 'fb':
+if target_data == 'fb_snap':
     with open(datasets[0], 'rb') as handle:
         weights = pickle.load(handle)
 elif target_data == 'fb_mich':
@@ -60,9 +60,9 @@ for state in state_init:
                 simulations_required.add((state, d, i, c))
 
 simulations_ran = set()
-for file in glob.glob("results_"+target_data+"/*.csv"):
+for file in glob.glob("simulation_results/results_"+target_data+"/*.csv"):
     spl = file.split("_")
-    simulations_ran.add((spl[5], int(spl[4]), int(spl[6]), spl[7].split(".")[0]))
+    simulations_ran.add((spl[6], int(spl[5]), int(spl[7]), spl[8].split(".")[0]))
 
 simulations_to_run = simulations_required - simulations_ran
 
